@@ -1,0 +1,10 @@
+@accu_api_key=
+@giphy_api_key=
+@city_search_url=http://dataservice.accuweather.com/locations/v1/cities/search
+@forecast_url=http://dataservice.accuweather.com/forecasts/v1/daily/1day/
+
+
+###
+GET {{city_search_url}}
+?apikey={{accu_api_key}}
+&q=brisbane
