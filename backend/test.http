@@ -21,6 +21,12 @@ GET {{forecast_url}}/24741
 &metric=true
 
 
+### Giphy API
+GET https://api.giphy.com/v1/gifs/search
+?api_key={{giphy_api_key}}
+&q=thunderstorm
+
+
 ### Localhost
 GET http://localhost:8000/forecast
 ?city_key=24741

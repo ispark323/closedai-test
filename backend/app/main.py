@@ -13,6 +13,7 @@ ACCU_API_KEY = os.getenv("ACCU_API_KEY")
 GIPHY_API_KEY = os.getenv("GIPHY_API_KEY")
 CITY_SEARCH_URL = os.getenv("CITY_SEARCH_URL")
 FORECAST_URL = os.getenv("FORECAST_URL")
+GIPHY_URL = os.getenv("GIPHY_URL")
 
 
 @app.get("/search-city")
@@ -66,5 +67,15 @@ async def forecast(request: Request):
         "weather": data["Headline"]["Category"],
         "description": data["Headline"]["Text"],
     }
+
+    # Get Giphy image for the weather
+    response = requests.get(
+        f"{GIPHY_URL}?api_key={GIPHY_API_KEY}&q={json_data['weather']}"
+    )
+    if response.status_code != 200:
+        raise HTTPException(status_code=response.status_code)
+
+    # Get the image URL from the response
+    json_data["image"] = response.json()["data"][0]["images"]["downsized"]["url"]
 
     return JSONResponse(json_data)
