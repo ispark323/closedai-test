@@ -4,7 +4,23 @@
 @forecast_url=http://dataservice.accuweather.com/forecasts/v1/daily/1day/
 
 
-###
+### Accuweather API city search
 GET {{city_search_url}}
 ?apikey={{accu_api_key}}
 &q=brisbane
+
+
+### Localhost
+GET http://localhost:8000/search-city
+?city=brisbane
+
+
+### Accuweather API weather forecast
+GET {{forecast_url}}/24741
+?apikey={{accu_api_key}}
+&metric=true
+
+
+### Localhost
+GET http://localhost:8000/forecast
+?city_key=24741

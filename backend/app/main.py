@@ -12,6 +12,7 @@ load_dotenv()
 ACCU_API_KEY = os.getenv("ACCU_API_KEY")
 GIPHY_API_KEY = os.getenv("GIPHY_API_KEY")
 CITY_SEARCH_URL = os.getenv("CITY_SEARCH_URL")
+FORECAST_URL = os.getenv("FORECAST_URL")
 
 
 @app.get("/search-city")
@@ -40,5 +41,30 @@ async def search_city(request: Request):
                 "state": city["AdministrativeArea"]["LocalizedName"],
             }
         )
+
+    return JSONResponse(json_data)
+
+
+@app.get("/forecast")
+async def forecast(request: Request):
+    city_key = request.query_params.get("city_key")
+
+    if not city_key:
+        raise HTTPException(status_code=400, detail="city_key parameter is required")
+
+    response = requests.get(
+        f"{FORECAST_URL}/{city_key}?apikey={ACCU_API_KEY}&metric=true"
+    )
+    if response.status_code != 200:
+        raise HTTPException(status_code=response.status_code)
+
+    data = response.json()
+
+    json_data = {
+        "temperature_min": data["DailyForecasts"][0]["Temperature"]["Minimum"]["Value"],
+        "temperature_max": data["DailyForecasts"][0]["Temperature"]["Maximum"]["Value"],
+        "weather": data["Headline"]["Category"],
+        "description": data["Headline"]["Text"],
+    }
 
     return JSONResponse(json_data)
