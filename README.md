@@ -27,7 +27,15 @@ NEXT_PUBLIC_BACKEND_URL='http://localhost:8000'
 
 ## Run the application
 ### Backend
-Run the following command inside `backend` directory in a terminal.
+
+Make a virtual environment and install the requirements.txt inside `backend` directory.
+```
+python3 -m venv venv && source venv/bin/activate
+
+pip3 install -r requirements.txt
+```
+
+Run the following command in a terminal.
 ```
 uvicorn app.main:app --reload
 ```
@@ -35,6 +43,7 @@ uvicorn app.main:app --reload
 ### Frontend
 Run the following command inside `frontend` directory in a separate terminal.
 ```
+npm install
 npm run dev
 ```
 
