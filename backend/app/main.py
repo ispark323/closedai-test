@@ -2,6 +2,7 @@ import os
 import requests
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
 
@@ -14,6 +15,18 @@ GIPHY_API_KEY = os.getenv("GIPHY_API_KEY")
 CITY_SEARCH_URL = os.getenv("CITY_SEARCH_URL")
 FORECAST_URL = os.getenv("FORECAST_URL")
 GIPHY_URL = os.getenv("GIPHY_URL")
+
+origins = [
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/search-city")
